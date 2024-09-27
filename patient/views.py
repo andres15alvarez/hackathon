@@ -10,7 +10,7 @@ from patient.serializers import PatientSerializer
 
 class PatientListAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     permission_classes = [IsAuthenticated, IsAdmin]
-    authentication_classes = JWTAuthentication
+    authentication_classes = [JWTAuthentication]
     queryset = Patient.objects.filter(deleted_at__isnull=True)
     serializer_class = PatientSerializer
 
