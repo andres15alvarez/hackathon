@@ -29,4 +29,5 @@ urlpatterns = [
     path("api/login", TokenObtainPairView.as_view(), name="login"),
     path("api/user", include("user.urls")),
     path("api/catalog/", include("catalog.urls")),
+    path("api/patient/", include("patient.urls")),
 ]

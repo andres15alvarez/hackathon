@@ -17,7 +17,7 @@ class SectorViewSet(ModelViewSet):
 class IllnessViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]
-    queryset = Illness.objects.filter(deleted_at__isnull=False)
+    queryset = Illness.objects.filter(deleted_at__isnull=True)
     serializer_class = IllnessSerializer
 
     def perform_destroy(self, instance):
@@ -28,7 +28,7 @@ class IllnessViewSet(ModelViewSet):
 class MedicineViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]
-    queryset = Medicine.objects.filter(deleted_at__isnull=False)
+    queryset = Medicine.objects.filter(deleted_at__isnull=True)
     serializer_class = MedicineSerializer
 
     def perform_destroy(self, instance):
@@ -46,7 +46,7 @@ class IllnessMedicineViewSet(ModelViewSet):
 class FrequentQuestionViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]
-    queryset = FrequentQuestion.objects.filter(deleted_at__isnull=False, is_visible=True)
+    queryset = FrequentQuestion.objects.filter(deleted_at__isnull=True, is_visible=True)
     serializer_class = FrequentQuestionSerializer
 
     def perform_destroy(self, instance):
