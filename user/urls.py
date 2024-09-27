@@ -1,6 +1,9 @@
 from django.urls import path
 
-app_name = "user"
-urlpatterns = [
+from user.views import UserListAPIView
 
+app_name = "user"
+
+urlpatterns = [
+    path("", UserListAPIView.as_view(), name="user_list"),
 ]
