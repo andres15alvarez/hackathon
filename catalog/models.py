@@ -40,3 +40,12 @@ class FrequentQuestion(BaseModel, BaseTimestampedModel):
 
     class Meta:
         db_table = "frequent_question"
+
+
+class MedicineContainer(BaseModel, BaseTimestampedModel):
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    grammage = models.FloatField()
+    code = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = "medicine_container"

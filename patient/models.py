@@ -1,6 +1,6 @@
 from django.db import models
 
-from catalog.models import Sector
+from catalog.models import MedicineContainer, Sector
 from hackaton.models import BaseModel, BaseTimestampedModel
 from user.models import User
 
@@ -26,3 +26,32 @@ class Patient(BaseModel, BaseTimestampedModel):
 
     class Meta:
         db_table = "patient"
+
+
+class PatientHistory(BaseModel):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    bed_bound = models.BooleanField(default=False)
+    diabetes = models.BooleanField(default=False)
+    erc = models.BooleanField(default=False)
+    iam = models.BooleanField(default=False)
+    acv = models.BooleanField(default=False)
+    dyslipidemia = models.BooleanField(default=False)
+    obesity = models.BooleanField(default=False)
+    smoking = models.BooleanField(default=False)
+    allergies = models.BooleanField(default=False)
+    other_meds = models.TextField()
+    other_notes = models.TextField()
+
+    class Meta:
+        db_table = "patient_history"
+
+
+class PatientTreatment(BaseModel, BaseTimestampedModel):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    medicine = models.ForeignKey(MedicineContainer, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    available = models.BooleanField(default=False)
+    done = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = "patient_treatment"
