@@ -18,10 +18,20 @@ class IllnessSerializer(serializers.ModelSerializer):
 
 
 class MedicineSerializer(serializers.ModelSerializer):
+    illnesses = serializers.PrimaryKeyRelatedField(
+        queryset=Illness.objects.filter(deleted_at__isnull=True),
+        many=True
+    )
     class Meta:
         model = Medicine
         fields = "__all__"
-        read_only_fields = ["id", "created_at", "updated_at", "deleted_at"]
+        read_only_fields = [
+            "id",
+            "created_at",
+            "updated_at",
+            "deleted_at",
+            "illnesses",
+        ]
 
 
 class IllnessMedicineSerializer(serializers.ModelSerializer):

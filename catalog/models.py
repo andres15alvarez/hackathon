@@ -19,6 +19,7 @@ class Illness(BaseModel, BaseTimestampedModel):
 
 class Medicine(BaseModel, BaseTimestampedModel):
     name = models.CharField(max_length=255)
+    illnesses = models.ManyToManyField(Illness, through="IllnessMedicine")
 
     class Meta:
         db_table = "medicine"
