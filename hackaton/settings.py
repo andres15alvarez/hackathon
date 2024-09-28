@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "user",
     "patient",
     "catalog",
+    "donor",
 ]
 
 MIDDLEWARE = [
