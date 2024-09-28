@@ -43,3 +43,17 @@ class DeliveredDonation(BaseModel):
     quantity = models.IntegerField()
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     other_notes = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = "delivered_donation"
+
+
+class Inventory(BaseModel):
+    checked_at = models.DateField()
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    needed = models.IntegerField()
+    available = models.IntegerField()
+    other_notes = models.TextField()
+
+    class Meta:
+        db_table = "inventory"
