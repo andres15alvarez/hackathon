@@ -1,5 +1,5 @@
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
@@ -9,7 +9,7 @@ from rest_framework import status
 from catalog.models import Illness, MedicineContainer
 from hackaton.permissions import IsAdmin
 from patient.models import Patient, PatientHistory, PatientIllness, PatientTreatment
-from patient.serializers import PatientSerializer
+from patient.serializers import PatientSerializer, PatientDetailSerializer
 
 
 class PatientListAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
@@ -36,6 +36,7 @@ class PatientListAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+        serializer.data["created_by"] = request.user
         serializer.is_valid(raise_exception=True)
         medicine = self.get_medicine(
             serializer.validated_data["medicine"],
@@ -48,3 +49,13 @@ class PatientListAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         PatientTreatment.objects.create(patient=obj, medicine=medicine, quantity=0)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PatientDetailAPIView(GenericAPIView, RetrieveModelMixin):
+    permission_classes = [IsAuthenticated, IsAdmin]
+    authentication_classes = [JWTAuthentication]
+    queryset = Patient.objects.filter(deleted_at__isnull=True)
+    serializer_class = PatientDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

@@ -68,7 +68,7 @@ class PatientIllness(models.Model):
         blank=True,
         null=True
     )
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="illnesses")
     illness = models.ForeignKey(Illness, on_delete=models.CASCADE)
     notes = models.TextField(blank=True, null=True)
     treatment = models.TextField(blank=True, null=True)

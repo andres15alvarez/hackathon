@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from patient.models import Patient
+from patient.models import Patient, PatientIllness
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -19,5 +19,22 @@ class PatientSerializer(serializers.ModelSerializer):
             },
             "grammage": {
                 "write_only": True
+            },
+            "created_by": {
+                "required": False
             }
         }
+
+
+class PatientIllnessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientIllness
+        fields = "__all__"
+
+
+class PatientDetailSerializer(serializers.ModelSerializer):
+    illnesses = PatientIllnessSerializer()
+    class Meta:
+        model = Patient
+        fields = "__all__"
+        fields = "illnesses"
