@@ -34,7 +34,7 @@ class Patient(BaseModel, BaseTimestampedModel):
 
 
 class PatientHistory(BaseModel):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="histories")
     bed_bound = models.BooleanField(default=False)
     diabetes = models.BooleanField(default=False)
     erc = models.BooleanField(default=False)
@@ -52,7 +52,7 @@ class PatientHistory(BaseModel):
 
 
 class PatientTreatment(BaseModel, BaseTimestampedModel):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="treatments")
     medicine = models.ForeignKey(MedicineContainer, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     available = models.BooleanField(default=False)

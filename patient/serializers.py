@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from patient.models import Patient, PatientIllness
+from patient.models import Patient, PatientHistory, PatientIllness, PatientTreatment
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -32,9 +32,24 @@ class PatientIllnessSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class PatientTreatmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientTreatment
+        fields = "__all__"
+
+
+class PatientHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientHistory
+        fields = "__all__"
+
+
 class PatientDetailSerializer(serializers.ModelSerializer):
-    illnesses = PatientIllnessSerializer()
+    illnesses = PatientIllnessSerializer(many=True)
+    treatments = PatientTreatmentSerializer(many=True)
+    histories = PatientHistorySerializer(many=True)
+
     class Meta:
         model = Patient
         fields = "__all__"
-        fields = "illnesses"
+        fields = ["illnesses", "treatments", "histories"]
