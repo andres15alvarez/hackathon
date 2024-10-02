@@ -1,6 +1,6 @@
 from django.db import models
 
-from catalog.models import MedicineContainer, Sector
+from catalog.models import Illness, MedicineContainer, Sector
 from hackaton.models import BaseModel, BaseTimestampedModel
 from user.models import User
 
@@ -8,6 +8,11 @@ from user.models import User
 class SexChoices(models.TextChoices):
     MALE = "M", "male"
     FEMALE = "F", "female"
+
+
+class IllnessGravityChoices(models.TextChoices):
+    I = "I", "estadio 1"
+    II = "II", "estadio 2"
 
 
 class Patient(BaseModel, BaseTimestampedModel):
@@ -55,3 +60,18 @@ class PatientTreatment(BaseModel, BaseTimestampedModel):
 
     class Meta:
         db_table = "patient_treatment"
+
+
+class PatientIllness(models.Model):
+    illness_gravity = models.CharField(
+        choices=IllnessGravityChoices.choices,
+        blank=True,
+        null=True
+    )
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    illness = models.ForeignKey(Illness, on_delete=models.CASCADE)
+    notes = models.TextField(blank=True, null=True)
+    treatment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = "patient_illness"
