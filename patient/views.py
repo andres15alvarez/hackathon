@@ -46,7 +46,11 @@ class PatientListAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         obj = serializer.save()
         PatientHistory.objects.create(patient=obj)
         PatientIllness.objects.create(patient=obj, illness=illness)
-        PatientTreatment.objects.create(patient=obj, medicine=medicine, quantity=0)
+        PatientTreatment.objects.create(
+            patient=obj,
+            medicine=medicine,
+            quantity=serializer.validated_data["quantity"]
+        )
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 

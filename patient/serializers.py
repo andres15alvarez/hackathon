@@ -7,6 +7,7 @@ class PatientSerializer(serializers.ModelSerializer):
     illness = serializers.UUIDField(required=True)
     medicine = serializers.UUIDField(required=True)
     grammage = serializers.FloatField(required=True)
+    quantity = serializers.IntegerField(required=True)
     class Meta:
         model = Patient
         fields = "__all__"
@@ -18,6 +19,9 @@ class PatientSerializer(serializers.ModelSerializer):
                 "write_only": True
             },
             "grammage": {
+                "write_only": True
+            },
+            "quantity": {
                 "write_only": True
             },
             "created_by": {
